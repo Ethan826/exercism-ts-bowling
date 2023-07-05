@@ -65,10 +65,12 @@ export class SecondRollFrame extends Frame implements IFrame {
   }
 
   public roll(pins: number) {
-    if (pins < 0) throw new Error(this.NEGATIVE_ROLL_MESSAGE);
-    if (pins + this.firstRoll > this.MAX_PINS)
+    this.validateRoll(pins);
+    
+    if (pins + this.firstRoll > this.MAX_PINS) {
       throw new Error(this.TOO_MANY_PINS_MESSAGE);
-
+    }
+    
     if (this.firstRoll + pins === this.MAX_PINS) {
       return new SpareFrame(this.firstRoll, pins, this.nextRollsProvider);
     } else {
